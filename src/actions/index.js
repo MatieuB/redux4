@@ -7,7 +7,7 @@ const api_key = '?key=mateos';
 
 export function fetchPosts() {
   const request = axios.get(`${root_url}${api_key}`);
-
+  // console.log('request',request);
   return {
     type: FETCH_POSTS,
     payload: request

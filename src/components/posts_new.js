@@ -1,20 +1,29 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 //pulls state from cmpnt to app level
 import { reduxForm } from 'redux-form';
 import { createPost } from '../actions/index'
 
 class NewPost extends Component {
+  //get accest to route prop on context (this.context.router)
+  static contextTypes = {
+    router: PropTypes.object
+  }
+  onSubmit(props) {
+    this.props.createPost(props)
+      .then(() => {
+        //post created, nav to '/'
+        this.context.router.push('/');
+      });
+  }
   dangerClass(field){
-    if(field.touched && field.invalid) {
-      return 'has-danger';
-    }
-    return '';
+    return (field.touched && field.invalid) ? 'has-danger' : '';
   }
   render() {
     const { fields: { title, categories, content}, handleSubmit } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.props.createPost)}>
+      <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <h3>Create a new Post</h3>
         <div className={`form-group ${this.dangerClass(title)} `}>
           <label>Title</label>
@@ -38,6 +47,7 @@ class NewPost extends Component {
           </div>
         </div>
         <button type="submit" className="btn btn-primary">Submit</button>
+        <Link to="/" className="btn btn-danger">Cancel</Link>
       </form>
     );
   }
