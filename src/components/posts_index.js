@@ -11,7 +11,7 @@ class PostsIndex extends Component {
     this.props.fetchPosts();
   }
   renderPosts(){
-    const posts = this.props.posts.all;
+    const posts = this.props.posts;
 
     return (
       posts.map(post=> {
@@ -45,7 +45,7 @@ class PostsIndex extends Component {
 }
 
 function mapStateToProps(state) {
-  return {posts:state.posts};
+  return {posts:state.posts.all};
 }
 
 // passed obj as 2nd arg and avoid mapDispatchToProps w/bindActionCreators fn
